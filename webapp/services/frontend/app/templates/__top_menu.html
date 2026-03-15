@@ -1,0 +1,24 @@
+<header class="hero">
+    <div class="container py-5">
+        <div class="hero-layout">
+            <div class="hero-branding">
+                <a class="hero-logo-link" href="/" aria-label="Ir para a página principal">
+                    <img
+                        class="hero-logo"
+                        src="{{ url_for('static', filename='img/pizzaria-logo.png') }}"
+                        alt="Logotipo da Pizzaria"
+                    >
+                </a>
+                <nav class="hero-menu" aria-label="Menu principal">
+                    <a class="hero-menu__item" href="/">CARDAPIO</a>
+                    <a class="hero-menu__item" href="#promocoes">PROMOCÕES</a>
+
+                    <a class="hero-menu__item" href="/login" data-guest-only>ENTRAR</a>
+
+                    <a class="hero-menu__item d-none" href="#meus-pedidos" data-auth-only>MEUS PEDIDOS</a>
+                    <a class="hero-menu__item d-none" href="#sair" data-auth-only data-action="logout">SAIR</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>

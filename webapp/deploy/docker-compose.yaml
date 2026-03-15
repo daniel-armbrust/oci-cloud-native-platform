@@ -1,0 +1,180 @@
+version: "3.9"
+
+services:
+  frontend-service:
+    build:
+      context: ../services/frontend
+    image: ocipizza-frontend-service:1.0
+    container_name: frontend-service
+    environment:
+      ENVIRONMENT: dev
+      PIZZA_API_BASE_URL: http://localhost:8083
+      OCI_REGION: sa-saopaulo-1
+      OBJECT_STORAGE_NAMESPACE: ${OCI_OBJECT_STORAGE_NAMESPACE}
+      BUCKET_PIZZAS_IMG: pizzas-img
+      COMPARTMENT_ID: ${COMPARTMENT_ID}
+    ports:
+      - "8080:8080"
+    depends_on:
+      - pizza-service
+      - user-service
+    restart: always
+    networks:
+      - ocipizza-network
+
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ocipizza
+      MYSQL_USER: ocipizza
+      MYSQL_PASSWORD: ocipizza
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ../data/mysql:/docker-entrypoint-initdb.d
+    restart: "unless-stopped"
+    networks:
+      - ocipizza-network
+  
+  redis:
+    image: redis:7
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - ocipizza-network
+    
+  seed-data:
+    build:
+      context: ../
+      dockerfile: scripts/Dockerfile
+    image: ocipizza-seed-data:1.0
+    container_name: seed-data
+    environment:
+      COMPARTMENT_ID: ${COMPARTMENT_ID}
+      NOSQL_PIZZAS_TABLE: pizzas
+      BUCKET_PIZZAS_IMG: pizzas-img
+      OCI_REGION: sa-saopaulo-1
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: ocipizza
+      MYSQL_USER: ocipizza
+      MYSQL_PASSWORD: ocipizza
+      ADMIN_EMAIL: admin@ocipizza.com
+      ADMIN_PASSWORD: admin123
+    volumes:
+      - ../assets/pizzas:/app/assets/pizzas
+      - ../data:/app/data
+      - ${HOME}/.oci:/root/.oci
+    depends_on:
+      - mysql
+    restart: no
+    networks:
+      - ocipizza-network
+
+  admin-service:
+    build:
+      context: ../services/admin
+    image: ocipizza-admin-service:1.0
+    container_name: admin-service    
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: ocipizza
+      MYSQL_USER: ocipizza
+      MYSQL_PASSWORD: ocipizza
+      JWT_SECRET: ${JWT_SECRET:-change-me-auth-secret}
+      PIZZA_API_BASE_URL: http://localhost:8083
+      OBJECT_STORAGE_NAMESPACE: ${OCI_OBJECT_STORAGE_NAMESPACE}
+      BUCKET_PIZZAS_IMG: pizzas-img
+      COMPARTMENT_ID: ${COMPARTMENT_ID}
+      TABLE_NAME: pizzas
+      OCI_REGION: sa-saopaulo-1
+    volumes:
+      - ${HOME}/.oci:/root/.oci
+    ports:
+      - "8082:8080"
+    depends_on:
+      - mysql
+      - user-service
+      - auth-service
+    restart: always
+    networks:
+      - ocipizza-network
+
+  user-service:
+    build:
+      context: ../services/user
+    image: ocipizza-user-service:1.0
+    container_name: user-service
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: ocipizza
+      MYSQL_USER: ocipizza
+      MYSQL_PASSWORD: ocipizza
+    ports:
+      - "8081:8080"
+    depends_on:
+      - mysql
+      - auth-service
+    restart: always
+    networks:
+      - ocipizza-network
+
+  auth-service:
+    build:
+      context: ../services/auth
+    image: ocipizza-auth-service:1.0
+    container_name: auth-service
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: ocipizza
+      MYSQL_USER: ocipizza
+      MYSQL_PASSWORD: ocipizza
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_DB: 0
+      JWT_SECRET: ${JWT_SECRET:-change-me-auth-secret}
+      CORS_ALLOWED_ORIGINS: http://localhost:8082,http://127.0.0.1:8082
+    ports:
+      - "8084:8080"
+    depends_on:
+      - mysql
+      - redis
+    restart: always    
+    networks:
+      - ocipizza-network
+
+  pizza-service:
+    build:
+      context: ../services/pizza
+    image: ocipizza-pizza-service:1.0
+    container_name: pizza-service
+    environment:
+      COMPARTMENT_ID: ${COMPARTMENT_ID}
+      TABLE_NAME: pizzas
+      NOSQL_PIZZAS_TABLE: pizzas
+      BUCKET_PIZZAS_IMG: pizzas-img
+      OBJECT_STORAGE_NAMESPACE: ${OCI_OBJECT_STORAGE_NAMESPACE}
+      OCI_REGION: sa-saopaulo-1
+      JWT_SECRET: ${JWT_SECRET:-change-me-auth-secret}
+      CORS_ALLOWED_ORIGINS: http://localhost:8080,http://127.0.0.1:8080,http://localhost:8082,http://127.0.0.1:8082
+    ports:
+      - "8083:8000"
+    volumes:
+      - ${HOME}/.oci:/root/.oci
+    restart: always
+    networks:
+      - ocipizza-network
+
+volumes:
+  mysql_data:
+networks:
+  ocipizza-network:
+    driver: bridge
+    name: ocipizza-network

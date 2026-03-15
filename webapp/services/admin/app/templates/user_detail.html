@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Detalhe do Usuario</title>
+    <link rel="stylesheet" href="/static/css/users.css">
+</head>
+<body>
+    <main class="admin-shell" data-user-id="{{ user_id }}">
+        <section class="admin-hero">
+            <p class="eyebrow">Painel Administrativo</p>
+            <h1>Detalhe do usuario</h1>
+            <p class="hero-copy">Atualize dados pessoais e de acesso, acompanhe enderecos salvos e revise o historico de pedidos.</p>
+        </section>
+
+        <nav class="admin-nav" aria-label="Menu administrativo">
+            <a class="admin-nav__item" href="/admin/users">Usuarios</a>
+            <a class="admin-nav__item" href="/admin/cardapio">Cardapio</a>
+            <a class="admin-nav__item" href="/admin/delivery-zones">Delivery Zones</a>
+            <button id="logout-button" class="admin-nav__item admin-nav__button" type="button">Sair</button>
+        </nav>
+
+        <p id="page-message" class="page-message" aria-live="polite"></p>
+
+        <section class="detail-grid">
+            <section class="content-panel">
+                <div class="panel-header">
+                    <div>
+                        <h2 id="user-title">Carregando...</h2>
+                        <p id="user-subtitle">Buscando dados do usuario.</p>
+                    </div>
+                    <div class="panel-actions">
+                        <a class="btn btn-secondary" href="/admin/users">Voltar</a>
+                    </div>
+                </div>
+
+                <form id="user-form" class="form-grid" novalidate>
+                    <input id="user-id" type="hidden" name="id">
+
+                    <label class="field">
+                        <span>Nome</span>
+                        <input id="user-name" type="text" maxlength="150" required>
+                    </label>
+
+                    <label class="field">
+                        <span>Email</span>
+                        <input id="user-email" type="email" maxlength="255" required>
+                    </label>
+
+                    <label class="field">
+                        <span>WhatsApp</span>
+                        <input id="user-whatsapp" type="text" maxlength="20">
+                    </label>
+
+                    <div class="split-grid">
+                        <label class="field">
+                            <span>Papel</span>
+                            <select id="user-role">
+                                <option value="user">Usuario</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                        </label>
+
+                        <label class="field">
+                            <span>Status</span>
+                            <select id="user-active">
+                                <option value="true">Ativo</option>
+                                <option value="false">Inativo</option>
+                            </select>
+                        </label>
+                    </div>
+
+                    <label class="field">
+                        <span>Nova senha</span>
+                        <input id="user-password" type="password" minlength="8" maxlength="72" placeholder="Opcional">
+                    </label>
+
+                    <div class="stats-grid">
+                        <article class="stat-card">
+                            <span>Criado em</span>
+                            <strong id="user-created-at">-</strong>
+                        </article>
+                        <article class="stat-card">
+                            <span>Atualizado em</span>
+                            <strong id="user-updated-at">-</strong>
+                        </article>
+                    </div>
+
+                    <div class="panel-actions">
+                        <button id="save-user" class="btn btn-primary" type="submit">Salvar usuario</button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="stack-panel">
+                <section class="content-panel">
+                    <div class="panel-header">
+                        <div>
+                            <h2>Enderecos</h2>
+                            <p>Lista completa de enderecos vinculados a este usuario.</p>
+                        </div>
+                    </div>
+                    <div id="addresses-empty" class="empty-state hidden">Nenhum endereco cadastrado.</div>
+                    <div id="addresses-list" class="stack-list"></div>
+                </section>
+
+                <section class="content-panel">
+                    <div class="panel-header">
+                        <div>
+                            <h2>Pedidos</h2>
+                            <p>Historico de pedidos com status, valor total e itens.</p>
+                        </div>
+                    </div>
+                    <div id="orders-empty" class="empty-state hidden">Nenhum pedido encontrado.</div>
+                    <div id="orders-list" class="stack-list"></div>
+                </section>
+            </section>
+        </section>
+    </main>
+
+    <script src="/static/js/user_detail.js"></script>
+</body>
+</html>

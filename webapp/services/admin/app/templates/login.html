@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo - Login</title>
+    <link rel="stylesheet" href="/static/css/login.css">
+</head>
+<body>
+    <main class="card">
+        <h1 class="title">Painel Administrativo</h1>
+        <p class="subtitle">Entre com suas credenciais para continuar.</p>
+
+        <form id="login-form" novalidate>
+            <div class="field">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" autocomplete="email" required>
+            </div>
+
+            <div class="field">
+                <label for="password">Senha</label>
+                <input id="password" name="password" type="password" autocomplete="current-password" required>
+            </div>
+
+            <div class="actions">
+                <button id="submit-btn" type="submit">Entrar</button>
+            </div>
+
+            <p id="message" class="message" aria-live="polite"></p>
+        </form>
+    </main>
+
+    <script src="/static/js/login.js"></script>
+</body>
+</html>

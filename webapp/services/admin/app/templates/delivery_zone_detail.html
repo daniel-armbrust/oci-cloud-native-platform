@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Detalhe da Zona de Entrega</title>
+    <link rel="stylesheet" href="/static/css/users.css">
+</head>
+<body>
+    <main class="admin-shell" data-zone-id="{{ zone_id }}">
+        <section class="admin-hero">
+            <p class="eyebrow">Painel Administrativo</p>
+            <h1>Detalhe da zona de entrega</h1>
+            <p class="hero-copy">Atualize os dados operacionais da zona de entrega sem sair do padrao visual do painel.</p>
+        </section>
+
+        <nav class="admin-nav" aria-label="Menu administrativo">
+            <a class="admin-nav__item" href="/admin/users">Usuarios</a>
+            <a class="admin-nav__item" href="/admin/cardapio">Cardapio</a>
+            <a class="admin-nav__item is-active" href="/admin/delivery-zones">Delivery Zones</a>
+            <button id="logout-button" class="admin-nav__item admin-nav__button" type="button">Sair</button>
+        </nav>
+
+        <p id="page-message" class="page-message" aria-live="polite"></p>
+
+        <section class="detail-grid">
+            <section class="content-panel">
+                <div class="panel-header">
+                    <div>
+                        <h2 id="zone-title">Carregando...</h2>
+                        <p id="zone-subtitle">Buscando dados da zona de entrega.</p>
+                    </div>
+                    <div class="panel-actions">
+                        <a class="btn btn-secondary" href="/admin/delivery-zones">Voltar</a>
+                    </div>
+                </div>
+
+                <form id="zone-form" class="form-grid" novalidate>
+                    <input id="zone-id" type="hidden" name="id">
+
+                    <label class="field">
+                        <span>Nome</span>
+                        <input id="zone-name" type="text" maxlength="150" required>
+                    </label>
+
+                    <div class="split-grid">
+                        <label class="field">
+                            <span>Cidade</span>
+                            <input id="zone-city" type="text" maxlength="150">
+                        </label>
+
+                        <label class="field">
+                            <span>Estado</span>
+                            <input id="zone-state" type="text" maxlength="50">
+                        </label>
+                    </div>
+
+                    <label class="field">
+                        <span>Bairro</span>
+                        <input id="zone-neighborhood" type="text" maxlength="150">
+                    </label>
+
+                    <div class="split-grid">
+                        <label class="field">
+                            <span>Taxa de entrega</span>
+                            <input id="zone-delivery-fee" type="number" step="0.01" min="0" required>
+                        </label>
+
+                        <label class="field">
+                            <span>Status</span>
+                            <select id="zone-active">
+                                <option value="true">Ativa</option>
+                                <option value="false">Inativa</option>
+                            </select>
+                        </label>
+                    </div>
+
+                    <div class="panel-actions">
+                        <button id="save-zone" class="btn btn-primary" type="submit">Salvar zona</button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="stack-panel">
+                <section class="content-panel">
+                    <div class="panel-header">
+                        <div>
+                            <h2>Resumo</h2>
+                            <p>Status operacional e localizacao principal da zona.</p>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid">
+                        <article class="stat-card">
+                            <span>Status</span>
+                            <strong id="zone-status">-</strong>
+                        </article>
+                        <article class="stat-card">
+                            <span>Cidade</span>
+                            <strong id="zone-summary-city">-</strong>
+                        </article>
+                        <article class="stat-card">
+                            <span>Estado</span>
+                            <strong id="zone-summary-state">-</strong>
+                        </article>
+                        <article class="stat-card">
+                            <span>Bairro</span>
+                            <strong id="zone-summary-neighborhood">-</strong>
+                        </article>
+                        <article class="stat-card">
+                            <span>Taxa</span>
+                            <strong id="zone-summary-fee">-</strong>
+                        </article>
+                    </div>
+                </section>
+            </section>
+        </section>
+    </main>
+
+    <script src="/static/js/delivery_zone_detail.js"></script>
+</body>
+</html>

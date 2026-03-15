@@ -1,0 +1,42 @@
+{% extends "__base.html" %}
+{% block title %}Entrar{% endblock %}
+{% block body_header %}
+    {% include "__top_menu.html" %}
+{% endblock %}
+{% block body %}
+    <main class="container pb-5">
+        <section class="login-shell">
+            <div class="login-card">
+                <div class="login-card__intro">
+                    <p class="login-eyebrow">Acesse sua conta</p>
+                    <h1 class="login-title">Entrar</h1>
+                    <p class="login-copy">Use seu email e senha para acompanhar pedidos e continuar a compra.</p>
+                </div>
+
+                <form id="login-form" class="login-form" novalidate>
+                    <label class="login-field">
+                        <span>Email</span>
+                        <input type="email" name="email" autocomplete="email" placeholder="voce@exemplo.com" required>
+                    </label>
+
+                    <label class="login-field">
+                        <span>Senha</span>
+                        <input type="password" name="password" autocomplete="current-password" placeholder="Sua senha" required>
+                    </label>
+
+                    <button id="submit-btn" class="btn-pizza login-submit" type="submit">ENTRAR</button>
+                    <p id="message" class="login-message" aria-live="polite"></p>
+                </form>
+            </div>
+        </section>
+    </main>
+{% endblock %}
+{% block body_scripts %}
+    <script src="{{ url_for('static', filename='js/common.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            initHeroMenu();
+        });
+    </script>
+{% endblock %}

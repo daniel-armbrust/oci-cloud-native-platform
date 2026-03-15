@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Usuarios</title>
+    <link rel="stylesheet" href="/static/css/users.css">
+</head>
+<body>
+    <main class="admin-shell">
+        <section class="admin-hero">
+            <p class="eyebrow">Painel Administrativo</p>
+            <h1>Gestao operacional</h1>
+            <p class="hero-copy">Escolha um usuario para abrir os detalhes completos ou altere as zonas de entrega pela navegacao central.</p>
+        </section>
+
+        <nav class="admin-nav" aria-label="Menu administrativo">
+            <a class="admin-nav__item is-active" href="/admin/users">Usuarios</a>
+            <a class="admin-nav__item" href="/admin/cardapio">Cardapio</a>
+            <a class="admin-nav__item" href="/admin/delivery-zones">Delivery Zones</a>
+            <button id="logout-button" class="admin-nav__item admin-nav__button" type="button">Sair</button>
+        </nav>
+
+        <p id="page-message" class="page-message" aria-live="polite"></p>
+
+        <section class="content-panel">
+            <div class="panel-header">
+                <div>
+                    <div class="title-row">
+                        <h2>Usuarios cadastrados</h2>
+                        <button id="refresh-users" class="title-icon-button" type="button" aria-label="Atualizar usuarios">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path d="M20 12a8 8 0 1 1-2.34-5.66"></path>
+                                <path d="M20 4v6h-6"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="search-toolbar">
+                        <button id="open-create-user" class="btn btn-primary" type="button">Novo usuario</button>
+                        <label class="search-field">
+                            <div class="search-field__control">
+                                <input id="user-search" type="search" placeholder="Nome, email, papel ou WhatsApp">
+                                <button class="search-field__button" type="button" aria-label="Buscar usuario">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                        <circle cx="11" cy="11" r="6"></circle>
+                                        <path d="M16 16L21 21"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div id="users-loading" class="empty-state">Carregando usuarios...</div>
+            <div id="users-empty" class="empty-state hidden">Nenhum usuario encontrado.</div>
+            <div id="users-list" class="users-grid" role="list"></div>
+        </section>
+    </main>
+
+    <div id="create-user-modal" class="modal-overlay hidden" aria-hidden="true">
+        <section class="modal-card" aria-labelledby="create-user-title">
+            <div class="title-row">
+                <h2 id="create-user-title">Novo usuario</h2>
+                <button id="close-create-user" class="title-icon-button" type="button" aria-label="Fechar">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <path d="M6 6L18 18"></path>
+                        <path d="M18 6L6 18"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <form id="create-user-form" class="form-grid" novalidate>
+                <label class="field">
+                    <span>Nome</span>
+                    <input id="create-user-name" type="text" maxlength="150" required>
+                </label>
+
+                <label class="field">
+                    <span>Email</span>
+                    <input id="create-user-email" type="email" maxlength="255" required>
+                </label>
+
+                <label class="field">
+                    <span>WhatsApp</span>
+                    <input id="create-user-whatsapp" type="text" maxlength="20">
+                </label>
+
+                <div class="split-grid">
+                    <label class="field">
+                        <span>Papel</span>
+                        <select id="create-user-role">
+                            <option value="user">Usuario</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </label>
+
+                    <label class="field">
+                        <span>Status</span>
+                        <select id="create-user-active">
+                            <option value="true">Ativo</option>
+                            <option value="false">Inativo</option>
+                        </select>
+                    </label>
+                </div>
+
+                <label class="field">
+                    <span>Senha</span>
+                    <input id="create-user-password" type="password" minlength="8" maxlength="72" required>
+                </label>
+
+                <div class="panel-actions">
+                    <button id="submit-create-user" class="btn btn-primary" type="submit">Criar usuario</button>
+                </div>
+            </form>
+        </section>
+    </div>
+
+    <script src="/static/js/users.js"></script>
+</body>
+</html>

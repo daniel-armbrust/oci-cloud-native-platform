@@ -1,0 +1,143 @@
+:root {
+    --bg-1: #f3f8f5;
+    --bg-2: #dceee5;
+    --panel: #ffffff;
+    --text: #1c2a24;
+    --muted: #587367;
+    --brand: #0d8f55;
+    --brand-strong: #0b7546;
+    --danger: #b42318;
+    --border: #d7e4dd;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    color: var(--text);
+    background: radial-gradient(circle at 15% 20%, var(--bg-2), transparent 35%),
+                radial-gradient(circle at 80% 80%, #cde5d8, transparent 30%),
+                linear-gradient(155deg, var(--bg-1), #eef7f2 60%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow-x: hidden;
+}
+
+.card {
+    width: 100%;
+    max-width: 430px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 26px 24px 22px;
+    box-shadow: 0 16px 45px rgba(16, 56, 37, 0.1);
+}
+
+.title {
+    margin: 0 0 6px;
+    font-size: 1.6rem;
+    line-height: 1.2;
+}
+
+.subtitle {
+    margin: 0 0 20px;
+    color: var(--muted);
+    font-size: 0.95rem;
+}
+
+.field {
+    margin-bottom: 14px;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+    color: #385449;
+    font-weight: 600;
+}
+
+input {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 0.96rem;
+    outline: none;
+    transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+
+input:focus {
+    border-color: var(--brand);
+    box-shadow: 0 0 0 4px rgba(13, 143, 85, 0.14);
+}
+
+.actions {
+    margin-top: 18px;
+}
+
+button {
+    width: 100%;
+    border: 0;
+    border-radius: 10px;
+    padding: 11px 14px;
+    background: var(--brand);
+    color: #fff;
+    font-size: 0.96rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 120ms ease, transform 80ms ease;
+}
+
+button:hover {
+    background: var(--brand-strong);
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+button:disabled {
+    opacity: 0.75;
+    cursor: wait;
+}
+
+.message {
+    min-height: 22px;
+    margin: 6px 0 0;
+    font-size: 0.9rem;
+    color: var(--danger);
+}
+
+@media (max-width: 640px) {
+    body {
+        padding: 14px;
+        align-items: flex-start;
+    }
+
+    .card {
+        max-width: 100%;
+        margin-top: 18px;
+        padding: 20px 16px 18px;
+        border-radius: 14px;
+    }
+
+    .title {
+        font-size: 1.4rem;
+    }
+
+    .subtitle {
+        font-size: 0.92rem;
+    }
+
+    input,
+    button {
+        min-height: 48px;
+    }
+}
